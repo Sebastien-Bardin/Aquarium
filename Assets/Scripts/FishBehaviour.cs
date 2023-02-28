@@ -66,6 +66,7 @@ public class FishBehaviour : MonoBehaviour
 
         Vector3 grouping = Vector3.zero;
         Vector3 avoiding = Vector3.zero;
+        Vector3 alining = Vector3.zero;
 
 
         if (GroupMembers.Count > 0)
@@ -76,6 +77,8 @@ public class FishBehaviour : MonoBehaviour
                 {
                     //Grouping sum of fish pos
                     grouping += GroupMembers[i].transform.position;
+
+                    alining += GroupMembers[i].transform.forward;
 
                     //Avoiding members
                     if (Vector3.Distance(GroupMembers[i].transform.position, this.transform.position) < GroupDist)
@@ -88,11 +91,12 @@ public class FishBehaviour : MonoBehaviour
             }
             //grouping point
             grouping = (grouping / GroupMembers.Count) * GroupingBehaviour;
+            alining = (alining/GroupMembers.Count) * AligningBehaviour;
             Vector3 destination = fishManager.Destination - transform.position;
            
             if (grouping != Vector3.zero)
             {
-                Direction = (grouping.normalized + avoiding + CurrentAvoidingVector + destination.normalized) - transform.position;
+                Direction = (grouping.normalized + avoiding + CurrentAvoidingVector + destination.normalized + alining.normalized) - transform.position;
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), RotationSpeed * Time.deltaTime);
             }
             else
