@@ -11,8 +11,17 @@ public class FishBehaviour : MonoBehaviour
     public float GroupDist = 1.0f;
     public float AligningBehaviour = 1.0f;
 
-    private List<GameObject> GroupMembers = new List<GameObject>();
+    
+    [SerializeField] private LayerMask obstacleMask;
+    [SerializeField] private Vector3[] DirectionToCheck;
 
+
+
+    private Vector3 Direction = Vector3.zero;
+    private Vector3 CurrentAvoidingVector = Vector3.zero;
+    private List<GameObject> GroupMembers = new List<GameObject>();
+    
+    
 
 
     private FishManager fishManager;
@@ -42,26 +51,22 @@ public class FishBehaviour : MonoBehaviour
         AligningBehaviour = fishManager.AligningBehaviour;
         ObstacleDistanceDetection = fishManager.ObstacleDistanceDetection;
 
-
-        if (Random.Range(0.0f , 100.0f) < 25.0f){
-            ChangeDirection();
-            Debug.Log("ChangeDirection");
-        }
-
+        CurrentAvoidingVector= AvoidObstacles();
+        ChangeDirection();
 
         transform.Translate(0, 0, Speed * Time.deltaTime);
 
     }
 
 
-    private void ChangeDirection(){
+    private void ChangeDirection()
+    {
 
-        
+
 
         Vector3 grouping = Vector3.zero;
-        Vector3 following = Vector3.zero;
         Vector3 avoiding = Vector3.zero;
-        
+
 
         if (GroupMembers.Count > 0)
         {
@@ -82,11 +87,18 @@ public class FishBehaviour : MonoBehaviour
 
             }
             //grouping point
-            grouping = (grouping / GroupMembers.Count) * GroupingBehaviour ;
-            Vector3 direction = (grouping  + avoiding + (fishManager.Destination-transform.position) ) - transform.position;
+            grouping = (grouping / GroupMembers.Count) * GroupingBehaviour;
+            Vector3 destination = fishManager.Destination - transform.position;
+           
             if (grouping != Vector3.zero)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction.normalized), RotationSpeed * Time.deltaTime);
+                Direction = (grouping.normalized + avoiding + CurrentAvoidingVector + destination.normalized) - transform.position;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), RotationSpeed * Time.deltaTime);
+            }
+            else
+            {
+                Direction =  CurrentAvoidingVector*2;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), RotationSpeed * Time.deltaTime);
             }
 
         }
@@ -94,13 +106,53 @@ public class FishBehaviour : MonoBehaviour
     }
 
 
-    /* #if(UNITY_EDITOR)
-         [ContextMenu("Initialize fish type")]
-         void IntitializeFish(){
-             fishManager = GetComponentInParent<FishManager>();
-             fishManager.FishSpeed = Speed;  
-         }
+    private Vector3 AvoidObstacles()
+    {
+        if (CurrentAvoidingVector != Vector3.zero)
+        {
+            RaycastHit check;
+            if (!Physics.Raycast(transform.position,transform.forward, out check, ObstacleDistanceDetection, obstacleMask))
+            {
+                return CurrentAvoidingVector;
+            }
+        }
+        float maxDist = 0 ;
+        Vector3 newDirection = Vector3.zero;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, ObstacleDistanceDetection, obstacleMask))
+        {
+            
+            for (int i = 0; i < DirectionToCheck.Length; i++)
+            {
+                var potentialDirection = transform.TransformDirection(DirectionToCheck[i].normalized);
+                if (Physics.Raycast(transform.position, potentialDirection, out hit, ObstacleDistanceDetection, obstacleMask))
+                {
+                    float obstacleDistance = Vector3.Distance(hit.point, transform.position);
+                    if (obstacleDistance > maxDist)
+                    {
+                        maxDist = obstacleDistance;
+                        newDirection = potentialDirection;
+                    }else
+                    {
+                        newDirection = potentialDirection;
+                        return newDirection.normalized;
+                    }
+                }
+            }
+        }
 
-     #endif*/
+        
+        return newDirection.normalized;
+
+
+    }
+
+
+     private void OnCollisionStay(Collision other) {
+        if (other.gameObject.layer == 6){
+            Direction =  fishManager.transform.position -transform.position;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), 3*RotationSpeed * Time.deltaTime);
+        }
+     }
 
 }
