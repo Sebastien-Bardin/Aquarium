@@ -52,7 +52,6 @@ public class FishManager : MonoBehaviour
         SpawnFish();
 
         ChangeDestination();
-        Debug.Log(DestChanged);
     }
 
 
@@ -61,7 +60,6 @@ public class FishManager : MonoBehaviour
 
     private void SpawnFish()
     {
-        Debug.Log(FishList.Count);
         if (FishPrefab)
         {
             if (FishList.Count < FishNumber)

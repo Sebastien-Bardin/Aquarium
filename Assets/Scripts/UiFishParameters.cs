@@ -65,7 +65,6 @@ public class UiFishParameters : MonoBehaviour
     public void SelectType(){
        foreach (var fish in FishPrefabs )
        {
-            Debug.Log(fish.name);
          if (fish.name == FishPrefabNames[FishType.value])
          {
             FM.FishPrefab = fish;
