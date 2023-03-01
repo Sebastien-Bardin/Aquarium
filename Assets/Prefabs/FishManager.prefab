@@ -45,7 +45,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FishList: []
-  FishPrefab: {fileID: 0}
+  FishPrefab: {fileID: 8033835282230704722, guid: 0517febad3c11f24084ffb61ba3cb9aa, type: 3}
   FishNumber: 10
   FishSpeed: 5
+  RotationSpeed: 0
+  GroupingBehaviour: 0
+  GroupDist: 0
+  AligningBehaviour: 0
+  ObstacleDistanceDetection: 0
+  ChangingDestinationChance: 1
+  TimeBetweenDestChange: 2
   GroupSpawnRange: {x: 5, y: 5, z: 5}
+  Destination: {x: 0, y: 0, z: 0}

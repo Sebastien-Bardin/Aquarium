@@ -11,7 +11,7 @@ public class FishBehaviour : MonoBehaviour
     public float GroupDist = 1.0f;
     public float AligningBehaviour = 1.0f;
 
-    
+
     [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private Vector3[] DirectionToCheck;
 
@@ -20,8 +20,8 @@ public class FishBehaviour : MonoBehaviour
     private Vector3 Direction = Vector3.zero;
     private Vector3 CurrentAvoidingVector = Vector3.zero;
     private List<GameObject> GroupMembers = new List<GameObject>();
-    
-    
+
+
 
 
     private FishManager fishManager;
@@ -51,7 +51,7 @@ public class FishBehaviour : MonoBehaviour
         AligningBehaviour = fishManager.AligningBehaviour;
         ObstacleDistanceDetection = fishManager.ObstacleDistanceDetection;
 
-        CurrentAvoidingVector= AvoidObstacles();
+        CurrentAvoidingVector = AvoidObstacles();
         ChangeDirection();
 
         transform.Translate(0, 0, Speed * Time.deltaTime);
@@ -91,9 +91,9 @@ public class FishBehaviour : MonoBehaviour
             }
             //grouping point
             grouping = (grouping / GroupMembers.Count) * GroupingBehaviour;
-            alining = (alining/GroupMembers.Count) * AligningBehaviour;
+            alining = (alining / GroupMembers.Count) * AligningBehaviour;
             Vector3 destination = fishManager.Destination - transform.position;
-           
+
             if (grouping != Vector3.zero)
             {
                 Direction = (grouping.normalized + avoiding + CurrentAvoidingVector + destination.normalized + alining.normalized) - transform.position;
@@ -101,7 +101,7 @@ public class FishBehaviour : MonoBehaviour
             }
             else
             {
-                Direction =  CurrentAvoidingVector*2;
+                Direction = CurrentAvoidingVector * 2;
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), RotationSpeed * Time.deltaTime);
             }
 
@@ -115,17 +115,17 @@ public class FishBehaviour : MonoBehaviour
         if (CurrentAvoidingVector != Vector3.zero)
         {
             RaycastHit check;
-            if (!Physics.Raycast(transform.position,transform.forward, out check, ObstacleDistanceDetection, obstacleMask))
+            if (!Physics.Raycast(transform.position, transform.forward, out check, ObstacleDistanceDetection, obstacleMask))
             {
                 return CurrentAvoidingVector;
             }
         }
-        float maxDist = 0 ;
+        float maxDist = 0;
         Vector3 newDirection = Vector3.zero;
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, ObstacleDistanceDetection, obstacleMask))
         {
-            
+
             for (int i = 0; i < DirectionToCheck.Length; i++)
             {
                 var potentialDirection = transform.TransformDirection(DirectionToCheck[i].normalized);
@@ -136,7 +136,8 @@ public class FishBehaviour : MonoBehaviour
                     {
                         maxDist = obstacleDistance;
                         newDirection = potentialDirection;
-                    }else
+                    }
+                    else
                     {
                         newDirection = potentialDirection;
                         return newDirection.normalized;
@@ -144,19 +145,17 @@ public class FishBehaviour : MonoBehaviour
                 }
             }
         }
-
-        
         return newDirection.normalized;
-
-
     }
 
 
-     private void OnCollisionStay(Collision other) {
-        if (other.gameObject.layer == 6){
-            Direction =  fishManager.transform.position -transform.position;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), 3*RotationSpeed * Time.deltaTime);
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.layer == 6)
+        {
+            Direction = fishManager.transform.position - transform.position;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), 3 * RotationSpeed * Time.deltaTime);
         }
-     }
+    }
 
 }
