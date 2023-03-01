@@ -7,7 +7,7 @@ using UnityEngine;
 public class FishManager : MonoBehaviour
 {
 
-    public List<GameObject> FishList = new List<GameObject>();
+    public List<GameObject> FishList = new List<GameObject>(); 
 
     [Header("Group fish settings")]
     public GameObject FishPrefab;
@@ -85,6 +85,14 @@ public class FishManager : MonoBehaviour
                 }
             }
         }
+    }
+    
+    public void ChangeFishType(){
+        foreach (var fish in FishList)
+        {
+            Destroy(fish);
+        }
+        FishList.Clear();
     }
 
     IEnumerator ChangeDestinationTimer(){

@@ -828,7 +828,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4364877404914782324}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1034,14 +1034,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -1072,7 +1072,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
+  m_Text: 0
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -1621,7 +1621,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4364877405282763860}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2027,7 +2027,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4364877406227028560}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2255,7 +2255,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4364877405017935340}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -2443,7 +2443,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4364877405446273034}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2611,7 +2611,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4364877405524093885}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2683,7 +2683,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u200B"
+  m_text: "0\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2710,7 +2710,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 8
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5117,7 +5117,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4364877405416669139}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -5559,6 +5559,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e5f4e32f8a9fe140b24954ae8856ee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FM: {fileID: 0}
+  FishType: {fileID: 4364877406355216457}
+  FishNum: {fileID: 4364877404440716363}
+  FishSpeed: {fileID: 4364877404736212676}
+  RotationSpeed: {fileID: 4364877405062236386}
+  GroupingBehaviour: {fileID: 4364877405011765347}
+  GroupDist: {fileID: 4364877405031698679}
+  AligningBehaviour: {fileID: 4364877405872743286}
+  ObstacleDist: {fileID: 4364877404996881799}
+  DestinationFreq: {fileID: 4364877404409522337}
+  FishPrefabs:
+  - {fileID: 8033835282230704722, guid: 0517febad3c11f24084ffb61ba3cb9aa, type: 3}
+  - {fileID: 8033835282230704722, guid: ea0a1abd874cced44af0ff5841a954bf, type: 3}
 --- !u!1 &4364877406026096472
 GameObject:
   m_ObjectHideFlags: 0
@@ -6341,7 +6354,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4364877406355216463}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6453,5 +6466,17 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6764264994318982732}
+        m_TargetAssemblyTypeName: UiFishParameters, Assembly-CSharp
+        m_MethodName: SelectType
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15

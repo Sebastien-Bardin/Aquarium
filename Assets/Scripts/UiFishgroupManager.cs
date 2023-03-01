@@ -37,7 +37,6 @@ public class UiFishgroupManager : MonoBehaviour
         {
             if (toggle.isOn)
             {
-                Debug.Log("checked");
                 Destroy(toggle.GetComponentInParent<UiFishParameters>().FM.transform.gameObject);
                 Destroy(toggle.GetComponentInParent<UiFishParameters>().gameObject);
             }
