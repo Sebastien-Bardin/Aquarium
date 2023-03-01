@@ -13,7 +13,7 @@ public class FishBehaviour : MonoBehaviour
 
 
     [SerializeField] private LayerMask obstacleMask;
-    [SerializeField] private Vector3[] DirectionToCheck;
+    [SerializeField] private Vector3[] DirectionToCheck ;
 
 
 
@@ -39,6 +39,10 @@ public class FishBehaviour : MonoBehaviour
         fishManager.AligningBehaviour = AligningBehaviour;
         fishManager.ObstacleDistanceDetection = ObstacleDistanceDetection;
         GroupMembers = fishManager.FishList;
+
+        AvoidingDirections();
+
+
     }
 
     // Update is called once per frame
@@ -156,6 +160,15 @@ public class FishBehaviour : MonoBehaviour
             Direction = fishManager.transform.position - transform.position;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), 3 * RotationSpeed * Time.deltaTime);
         }
+    }
+
+    private void AvoidingDirections(){
+        DirectionToCheck = new Vector3[5];
+        DirectionToCheck[0] = Vector3.right;
+        DirectionToCheck[1] = Vector3.left;
+        DirectionToCheck[2] = Vector3.up;
+        DirectionToCheck[3] = Vector3.down;
+        DirectionToCheck[4] = Vector3.back;
     }
 
 }

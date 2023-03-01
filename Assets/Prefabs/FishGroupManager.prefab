@@ -5572,6 +5572,8 @@ MonoBehaviour:
   FishPrefabs:
   - {fileID: 8033835282230704722, guid: 0517febad3c11f24084ffb61ba3cb9aa, type: 3}
   - {fileID: 8033835282230704722, guid: ea0a1abd874cced44af0ff5841a954bf, type: 3}
+  - {fileID: 2228535995987770624, guid: 1a9f093eee1950447adc4d1600cfca3b, type: 3}
+  - {fileID: 6514081357550301775, guid: b6fe135ddc20a284a9d5238bd56b8460, type: 3}
 --- !u!1 &4364877406026096472
 GameObject:
   m_ObjectHideFlags: 0
