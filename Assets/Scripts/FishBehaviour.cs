@@ -31,6 +31,7 @@ public class FishBehaviour : MonoBehaviour
 
     void Start()
     {
+        //initializing prefab values when implemented in a FishManager
         fishManager = GetComponentInParent<FishManager>();
         fishManager.FishSpeed = Speed;
         fishManager.RotationSpeed = RotationSpeed;
@@ -40,14 +41,14 @@ public class FishBehaviour : MonoBehaviour
         fishManager.ObstacleDistanceDetection = ObstacleDistanceDetection;
         GroupMembers = fishManager.FishList;
 
+        //Adding vectors to look at in order to avoid obstacles
         AvoidingDirections();
-
-
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
+        //getting the fishmanager values for the group
         Speed = fishManager.FishSpeed;
         RotationSpeed = fishManager.FishSpeed;
         GroupingBehaviour = fishManager.GroupingBehaviour;
@@ -55,9 +56,13 @@ public class FishBehaviour : MonoBehaviour
         AligningBehaviour = fishManager.AligningBehaviour;
         ObstacleDistanceDetection = fishManager.ObstacleDistanceDetection;
 
+        //look if there are obstacles
         CurrentAvoidingVector = AvoidObstacles();
+
+        //Change the fish direction (forward)
         ChangeDirection();
 
+        //move the fish at a cosntant speed
         transform.Translate(0, 0, Speed * Time.deltaTime);
 
     }
@@ -67,12 +72,12 @@ public class FishBehaviour : MonoBehaviour
     {
 
 
-
+        //initializing vectors
         Vector3 grouping = Vector3.zero;
         Vector3 avoiding = Vector3.zero;
         Vector3 alining = Vector3.zero;
 
-
+        
         if (GroupMembers.Count > 0)
         {
             for (int i = 0; i < GroupMembers.Count; i++)
@@ -82,6 +87,7 @@ public class FishBehaviour : MonoBehaviour
                     //Grouping sum of fish pos
                     grouping += GroupMembers[i].transform.position;
 
+                    //Aliging fish forwards
                     alining += GroupMembers[i].transform.forward;
 
                     //Avoiding members
@@ -95,21 +101,26 @@ public class FishBehaviour : MonoBehaviour
             }
             //grouping point
             grouping = (grouping / GroupMembers.Count) * GroupingBehaviour;
+
+            //Direction fish will try to align with
             alining = (alining / GroupMembers.Count) * AligningBehaviour;
 
-
+            //If fish are grouped
             if (grouping != Vector3.zero)
             {
                 Vector3 destination = fishManager.Destination - transform.position;
+                // adding all vectors to make a direction
                 Direction = (grouping.normalized + avoiding + CurrentAvoidingVector + destination + alining.normalized) - transform.position;
+                //rotating the fish in order to make it face is destination
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), RotationSpeed * Time.deltaTime);
             }
-            else
+            else // if fish is on its own
             {
                 Direction = CurrentAvoidingVector;
+                //this range is preventing the direction to change every frame
                 if (Random.Range(0.0f, 1000.0f) < fishManager.ChangingDestinationChance)
                 {
-                    Debug.Log("Changing direction");
+                    //new random destination for signle fish
                     Vector3 destination = transform.position + new Vector3(Random.Range(-fishManager.GroupSpawnRange.x, fishManager.GroupSpawnRange.x), Random.Range(-fishManager.GroupSpawnRange.y, fishManager.GroupSpawnRange.y), Random.Range(-fishManager.GroupSpawnRange.z, fishManager.GroupSpawnRange.z));
                     Direction += destination;
                 }
@@ -121,9 +132,10 @@ public class FishBehaviour : MonoBehaviour
 
     }
 
-
+    //Method to avoid gameobjects on the Obstacle Layer
     private Vector3 AvoidObstacles()
     {
+        //checking if the previous avoid vetor is still good 
         if (CurrentAvoidingVector != Vector3.zero)
         {
             RaycastHit check;
@@ -135,32 +147,30 @@ public class FishBehaviour : MonoBehaviour
         float maxDist = 0;
         Vector3 newDirection = Vector3.zero;
         RaycastHit hit;
+
+        //Checking if there is an obstacle 
         if (Physics.Raycast(transform.position, transform.forward, out hit, ObstacleDistanceDetection, obstacleMask))
         {
-            Debug.Log("raycast hit");
-
+            //Check every avoid angles 
             for (int i = 0; i < DirectionToCheck.Length; i++)
             {
-
+                //Checking if the potential avoiding direction hit something
                 var potentialDirection = transform.TransformDirection(DirectionToCheck[i].normalized);
                 if (Physics.Raycast(transform.position, potentialDirection, out hit, ObstacleDistanceDetection, obstacleMask))
-                {
-                    Debug.Log("Pot HIT");
+                {   
+                    //Potential avoiding vector hit something so we will store the one further away from the obsctacle
                     float obstacleDistance = Vector3.Distance(hit.point, transform.position);
                     if (obstacleDistance > maxDist)
                     {
                         maxDist = obstacleDistance;
-                        //Debug.Log(potentialDirection);
                         newDirection = potentialDirection;
-                        //newDirection = -transform.forward;
+                       
                     }
                 }
-                else
+                else //return the avoiding vector
                 {
 
                     newDirection = potentialDirection;
-                    //newDirection = -transform.forward;
-                    Debug.Log("Avoiding");
                     return newDirection.normalized;
                 }
             }
@@ -169,15 +179,7 @@ public class FishBehaviour : MonoBehaviour
     }
 
 
-    private void OnCollisionStay(Collision other)
-    {
-        /*if (other.gameObject.layer == 6)
-        {
-            Direction = fishManager.transform.position - transform.position;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), 3 * RotationSpeed * Time.deltaTime);
-        }*/
-    }
-
+    //Adding vectors to check when avoiding 
     private void AvoidingDirections()
     {
         DirectionToCheck = new Vector3[5];

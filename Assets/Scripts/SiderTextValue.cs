@@ -6,18 +6,20 @@ using TMPro;
 
 public class SiderTextValue : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     [SerializeField] private Slider slider;
     void Start()
-    {
+    {   //getting the slider associated to the text
         slider = GetComponentInParent<Slider>();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
+        //restricing text characters to 3
         GetComponent<TMP_Text>().maxVisibleCharacters = 3;
+
+        //updating the text with the slider value
         GetComponent<TMP_Text>().text = slider.value.ToString();
     }
 }

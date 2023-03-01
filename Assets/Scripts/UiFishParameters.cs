@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UiFishParameters : MonoBehaviour
 {
-
+    //UI Elements 
     public FishManager FM;
     public TMP_Dropdown FishType;
     public TMP_InputField FishNum;
@@ -18,14 +18,16 @@ public class UiFishParameters : MonoBehaviour
     public Slider ObstacleDist;
     public Slider DestinationFreq;
 
+    //list of prefab we can instantiate
     public List<GameObject> FishPrefabs = new List<GameObject>();
     private List<string> FishPrefabNames = new List<string>();
 
     
 
-    // Start is called before the first frame update
+    
     void Start()
     {
+        //loading fish prefab in the dropdown
         foreach (var fish in FishPrefabs)
         {
             FishPrefabNames.Add(fish.name);
@@ -33,6 +35,7 @@ public class UiFishParameters : MonoBehaviour
         FishType.ClearOptions();
         FishType.AddOptions(FishPrefabNames);
 
+        //Setting the default fish values
         FishSpeed.value = FishPrefabs[0].gameObject.GetComponent<FishBehaviour>().Speed;
         RotationSpeed.value = FishPrefabs[0].gameObject.GetComponent<FishBehaviour>().RotationSpeed ;
         GroupingBehaviour.value =FishPrefabs[0].gameObject.GetComponent<FishBehaviour>().GroupingBehaviour ;
@@ -43,9 +46,9 @@ public class UiFishParameters : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //Updating the FishManager values with the values entered in the UI
         if (FishNum.text.Length != 0)
         {
             FM.FishNumber = int.Parse((string)FishNum.text);
@@ -63,6 +66,8 @@ public class UiFishParameters : MonoBehaviour
     }
 
     public void SelectType(){
+
+        //Changing the fish prefab and setting default values
        foreach (var fish in FishPrefabs )
        {
          if (fish.name == FishPrefabNames[FishType.value])

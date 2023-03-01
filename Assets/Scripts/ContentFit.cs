@@ -7,7 +7,7 @@ public class ContentFit : MonoBehaviour
     private float ContentSize;
 
 
-    // Update is called once per frame
+    //Resizing the scroll view content size based on the actual content 
     void Update()
     {
         ContentSize = 0;
